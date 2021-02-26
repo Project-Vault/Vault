@@ -1,2 +1,2 @@
-# vault
-Sources of the kernel of the Vault Project
+# Vault Kernel for Project Vault
+Sources of the kernel of the Vault Project.
