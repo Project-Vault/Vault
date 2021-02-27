@@ -6,9 +6,13 @@ PROJ_PATH	= ../../..
 SRC_PATH 	= .
 OUT_PATH	= $(PROJ_PATH)/build
 
-# Files to compile
-FILES		= boot.o loader.o
-OBJ			= $(patsubst %, ./$(OUT_PATH)/%, $(FILES))
+# C files to compile
+C_FILES		= $(wildcard *.c)
+ASM_FILES	= $(wildcard *.s)
+
+# Assembly files to compile
+C_OBJ		= $(patsubst %.c, ./$(OUT_PATH)/%.o, $(C_FILES))
+ASM_OBJ		= $(patsubst %.s, ./$(OUT_PATH)/%.o, $(ASM_FILES))
 
 # Disable preinstalled suffixes
 .SUFFIXES:
@@ -17,7 +21,7 @@ OBJ			= $(patsubst %, ./$(OUT_PATH)/%, $(FILES))
 .PHONY : all
 
 # The main target
-all : $(OBJ)
+all : $(C_OBJ) $(ASM_OBJ)
 
 # Suffix rules
 $(OUT_PATH)/%.o: $(SRC_PATH)/%.s

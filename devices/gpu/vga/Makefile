@@ -2,13 +2,13 @@
 CFLAGS 		+= -I $(PROJ_PATH)
 
 # Global paths
-PROJ_PATH	= ../..
+PROJ_PATH	= ../../..
 SRC_PATH 	= .
 BUILD_PATH	= $(PROJ_PATH)/build
 
 # Files to compile
-FILES		= 
-OBJ			= $(patsubst %, ./$(OUT_PATH)/%, $(FILES))
+FILES		= $(wildcard *.c)
+OBJ			= $(patsubst %.c, ./$(OUT_PATH)/%, $(FILES))
 
 # Disable preinstalled suffixes
 .SUFFIXES:

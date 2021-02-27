@@ -7,8 +7,8 @@ SRC_PATH 	= .
 OUT_PATH	= $(PROJ_PATH)/build
 
 # Files to compile
-FILES		= vga.o
-OBJ			= $(patsubst %, ./$(OUT_PATH)/%, $(FILES))
+FILES		= $(wildcard *.c)
+OBJ			= $(patsubst %.c, ./$(OUT_PATH)/%.o, $(FILES))
 
 # Disable preinstalled suffixes
 .SUFFIXES:
