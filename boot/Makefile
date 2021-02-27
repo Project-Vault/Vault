@@ -1,30 +1,31 @@
-# C Language Compiler block
-CFLAGS 		+= -I $(PROJ_PATH) -DKERNEL_NAME=\""$(KERNEL_NAME)"\" -DKERNEL_VERSION=\""$(VERSION)"\"
+# Architecture-dependend files build
+X86_PATH	= x86_64
+ARM_PATH	= arm
+ARM64_PATH	= arm64
 
-# GNU Linker block
-LDFLAGS		= -m elf_i386 -T $(LINKER_FILE) 
+# Build the project for x86_64
+ifeq ($(ARCH), x86_64)
+BOOT_PATH 	= $(X86_PATH)
+endif
 
-# Global paths
-PROJ_PATH	= ..
-SRC_PATH 	= $(ARCH)
-OUT_PATH	= $(PROJ_PATH)/build
+# Build the project for arm
+ifeq ($(ARCH), arm)
+BOOT_PATH 	= $(ARM_PATH)
+endif
 
-# Files to compile
-FILES		= boot.o loader.o
-OBJ			= $(patsubst %, ./$(OUT_PATH)/%, $(FILES))
+# Build the project for arm64
+ifeq ($(ARCH), arm64)
+BOOT_PATH 	= $(ARM64_PATH)
+endif
 
 # Disable preinstalled suffixes
 .SUFFIXES:
 
 # Declare phony targets
-.PHONY : all
+.PHONY : all boot
 
 # The main target
-all : $(OBJ)
+all : boot
 
-# Suffix rules
-$(OUT_PATH)/%.o: $(SRC_PATH)/%.s
-	$(ASM) -o $@ $< $(ASMCFLAGS)
-
-$(OUT_PATH)/%.o: $(SRC_PATH)/%.c
-	$(CC) -c -o $@ $< $(CFLAGS)
+boot :
+	cd $(BOOT_PATH) && $(MAKE)

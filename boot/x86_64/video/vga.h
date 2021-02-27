@@ -29,6 +29,7 @@
 typedef struct {
 	uint16_t* vga_mem;
 	uint16_t vga_mem_index;
+	uint8_t mode;
 } vga_mem_struct;
 
 void vga_clear_screen(void);

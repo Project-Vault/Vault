@@ -1,4 +1,4 @@
-#include "vga/vga.h"
+#include "vga.h"
 
 static volatile vga_mem_struct vga = { 
 	.vga_mem = (uint16_t*) 0xb8000, 

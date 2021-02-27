@@ -13,7 +13,7 @@ ASMCFLAGS		= -f elf32
 
 # GNU linker block
 LD				= ld
-LDFLAGS			= -m elf_i386 -T
+LDFLAGS			= -m elf_i386
 
 # GNU rm block
 RM 				= rm
@@ -25,8 +25,9 @@ MKDIRFLAGS		= -p
 
 # Boot subfolder block
 BOOT_PATH 		= boot
-BOOT_LD_PATH	= $(BOOT_PATH)/$(ARCH)/linker.ld
-BOOT_LINK		= $(LDFLAGS) $(BOOT_LD_PATH)
+BOOT_LD_PATH	= $(BOOT_PATH)/$(ARCH)/linker
+BOOT_LD_FILES	= $(wildcard $(BOOT_LD_PATH)/*.ld)
+BOOT_LINK		= $(LDFLAGS) $(patsubst %, -T %, $(BOOT_LD_FILES))
 
 # Devices subfolder block
 DEVICES_PATH	= devices

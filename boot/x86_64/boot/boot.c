@@ -1,4 +1,4 @@
-#include "devices/gpu/vga/vga.h"
+#include "../video/vga.h"
 
 void kmain(void) {
 	const char *name = KERNEL_NAME;
