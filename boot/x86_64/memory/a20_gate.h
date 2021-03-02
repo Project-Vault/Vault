@@ -14,19 +14,7 @@
  * limitations under the License.
  */
 
-#include "../video/vga.h"
+#ifndef A20_H
+#define A20_H
 
-void kmain(void) {
-	const char *name = KERNEL_NAME;
-	const char *version = KERNEL_VERSION;
-	uint16_t param = VGA_SET_COLOR_PARAM(VGA_COLOR_BLACK,VGA_COLOR_GREEN);
-
-	// Print kernel info
-	vga_init(param);
-	vga_clear_screen();
-	vga_print_string(name);
-	vga_print_character(' ');
-	vga_print_string(version);
-
-	return;
-}
+#endif /* A20_H */

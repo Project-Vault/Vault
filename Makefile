@@ -1,3 +1,17 @@
+# Copyright [2020] [Project Vault Team]
+# 
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# you may obtain a copy of the License at
+# 
+#   http://www.apache.org/licenses/LICENSE-2.0
+# 
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # Kernel info
 KERNEL_NAME		= VAULT KERNEL
 VERSION			= 0.0.0
@@ -30,7 +44,7 @@ BOOT_LD_FILES	= $(wildcard $(BOOT_LD_PATH)/*.ld)
 BOOT_LINK		= $(LDFLAGS) $(patsubst %, -T %, $(BOOT_LD_FILES))
 
 # Devices subfolder block
-DEVICES_PATH	= devices
+DRIVERS_PATH	= drivers
 
 # Building block
 PROJ_PATH		= .
@@ -51,7 +65,7 @@ export KERNEL_NAME
 export VERSION
 
 # Declare phony targets
-.PHONY : all version clean make_dir  vault_kernel boot devices
+.PHONY : all test version clean make_dir vault_kernel boot devices
 
 # The main target
 all : make_dir vault_kernel
@@ -73,9 +87,12 @@ boot :
 	cd $(BOOT_PATH) && $(MAKE)
 
 # Build devices drivers modules
-devices : 
-	cd $(DEVICES_PATH) && $(MAKE)
+drivers : 
+	cd $(DRIVERS_PATH) && $(MAKE)
 
 # Build the kernel
-vault_kernel : boot devices
+vault_kernel : make_dir boot devices
 	$(LD) -o $(BUILD_PATH)/$@ $(wildcard $(BUILD_PATH)/*.o) $(BOOT_LINK)
+
+test : vault_kernel
+	qemu-system-x86_64 -kernel $(BUILD_PATH)/$<

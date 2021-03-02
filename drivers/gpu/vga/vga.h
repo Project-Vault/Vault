@@ -17,9 +17,7 @@
 #ifndef VGA_H
 #define VGA_H
 
-#include "misc/types/types.h"
-
-// VGA mode screen parameters (default)
+// VGA mode screen parameters
 #define VGA_ROW_COUNT 					25
 #define VGA_COLUMN_COUNT 				85
 
@@ -31,8 +29,31 @@
 #define VGA_GRAPH_DATA_ADDR				0x3cf
 
 // VGA indexes
-#define VGA_CRTC_CURSOR_START			0x0A
-#define VGA_CRTC_CURSOR_END				0x0B
+#define VGA_CRT_HOR_TOTAL				0x00
+#define VGA_CRT_END_HOR_DISP			0x01
+#define VGA_CRT_START_HOR_BLANK			0x02
+#define VGA_CRT_END_HOR_BLANK			0x03
+#define VGA_CRT_START_HOR_RETRACE		0x04
+#define VGA_CRT_END_HOR_RETRACE			0x05
+#define VGA_CRT_VER_TOTAL				0x06
+#define VGA_CRT_OVF						0x07
+#define VGA_CRT_ROW_SCAN				0x08
+#define VGA_CRT_MAX_LINE_SCAN			0x09
+#define VGA_CRT_CURSOR_START			0x0A
+#define VGA_CRT_CURSOR_END				0x0B
+#define VGA_CRT_START_ADDR_HIGH			0x0C
+#define VGA_CRT_START_ADDR_LOW			0x0D
+#define VGA_CRT_CURSOR_POS_HIGH			0x0E
+#define VGA_CRT_CURSOR_POS_LOW			0x0F
+#define VGA_CRT_VER_RETRACE_START		0x10
+#define VGA_CRT_VER_RETRACE_END			0x11
+#define VGA_CRT_VER_END					0x12
+#define VGA_CRT_VER_END					0x12
+#define VGA_CRT_VER_END					0x12
+#define VGA_CRT_VER_END					0x12
+#define VGA_CRT_VER_END					0x12
+#define VGA_CRT_VER_END					0x12
+#define VGA_CRT_HOR_TOTAL				0x18
 
 // Colors
 #define VGA_COLOR_BLACK   				0x0
@@ -44,34 +65,4 @@
 #define VGA_COLOR_BROWN   				0x6
 #define VGA_COLOR_WHITE   				0x7
 
-// Print manipulation
-#define VGA_SET_BG(bg)				(bg << 4)
-#define VGA_SET_COLOR_PARAM(bg,fg)	(VGA_SET_BG(bg) | fg)
-#define VGA_SET_COLOR(sym,param) 	((param << 8) | sym)
-#define VGA_GET_SYM(block)			(block | 0xFF00)
-#define VGA_GET_COLOR(block)		(block >> 8)
-#define VGA_GET_BG(block)			(VGA_GET_COLOR(block) >> 4)
-#define VGA_GET_FG(block)			(VGA_GET_COLOR(block) | 0xF0)
-
-/**
- * Holding VGA state data
- */
-struct vga_state_struct {
-	uint16_t* mem;
-	uint16_t mem_index;
-	uint8_t param;
-};
-
-void vga_init(const uint8_t param);
-void vga_set_param(const uint8_t param);
-void vga_clear_screen(void);
-void vga_print_character(const uint8_t character);
-void vga_print_string(const uint8_t *string);
-
-static void __vga_scroll(void);
-static void __vga_set_cursor(bool is_enabled);
-
-static inline uint8_t _inb(uint16_t port);
-static inline void _outb(uint16_t port, uint8_t value);
-
-#endif // VGA_H
+#endif /* VGA_H */
